@@ -1,5 +1,6 @@
 package edu.pzks.keycloakproject;
 
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -7,18 +8,21 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/api/v1/hello/")
 public class MyController {
-    @GetMapping("/admin")
-    public String helloAdmin() {
-        return "Hello Admin";
+    @GetMapping("/user")
+    @PreAuthorize("hasRole('client_user')")
+    public String helloUser() {
+        return " <h1>hello user<h1>";
     }
 
-    @GetMapping("/user")
-    public String helloUser() {
-        return "Hello User";
+    @GetMapping("/admin")
+    @PreAuthorize("hasRole('client_admin')")
+    public String helloAdmin() {
+        return "hello admin";
     }
 
     @GetMapping("/unknown")
     public String helloUnknown() {
-        return "Hello Unknown";
+        return "hello unknown";
     }
+
 }
